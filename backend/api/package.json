@@ -1,0 +1,57 @@
+{
+  "name": "medinsights-auth",
+  "version": "1.0.0",
+  "description": "Authentication For MedInsights App",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/idbord/backend.git"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "generate": "DATABASE_URL=$(grep DEV_DATABASE_URL config.env | cut -d '=' -f2) npx prisma generate"
+  },
+  "author": "Anurag Nampally",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/polyfill": "^7.12.1",
+    "@prisma/client": "^5.5.2",
+    "base32.js": "^0.1.0",
+    "bcrypt": "^5.0.1",
+    "bull": "^4.11.4",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-mongo-sanitize": "^2.1.0",
+    "express-rate-limit": "^5.2.6",
+    "fuse.js": "^7.0.0",
+    "helmet": "^4.6.0",
+    "hpp": "^0.2.3",
+    "html-to-text": "^8.0.0",
+    "ioredis": "^5.3.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.11",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.6.1",
+    "pug": "^3.0.2",
+    "qrcode": "^1.5.3",
+    "sharp": "^0.32.6",
+    "socket.io": "^4.7.2",
+    "socket.io-client": "^4.7.2",
+    "socketio-jwt": "^4.6.2",
+    "speakeasy": "^2.0.0",
+    "validator": "^13.6.0",
+    "xss-clean": "^0.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.9",
+    "fs": "^0.0.1-security",
+    "parcel-bundler": "^1.12.5",
+    "path": "^0.12.7",
+    "prisma": "^5.5.2"
+  }
+}

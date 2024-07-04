@@ -1,0 +1,25 @@
+extends baseEmail 
+
+block content
+    p Hi #{firstName},
+    p Welcome to MedInsights, we're glad to have you 🎉🙏
+    table(style="max-width: 600px; margin: 0 auto; padding: 20px; border-collapse: collapse;")
+      tr
+        td(style="background-color: #007bff; padding: 20px; text-align: center;")
+          h1(style="color: #fff;") Two-Factor Authentication
+      tr
+        td(style="background-color: #f8f9fa; padding: 20px;")
+
+          p Please use the following QR code to register for Two-Factor Authentication (2FA):
+
+          img(src=`${qrCode}`, alt="QR Code")
+
+          p You can use your preferred authenticator app to scan the QR code and complete the registration process.
+
+          p If you did not request this 2FA registration, please ignore this email.
+
+          p Thank you for enhancing the security of your account.
+
+      tr
+        td(style="background-color: #007bff; padding: 20px; text-align: center;")
+          p(style="color: #fff;") © 2023 MedInsights

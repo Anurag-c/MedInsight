@@ -1,0 +1,24 @@
+extends baseemail
+
+block content
+  tr
+    td
+      p Hello, Subscriber!
+
+      p A new insurance plan has been added by #{provider}:
+
+      .details
+        p
+          strong Plan Name:
+          | #{plan.planName}
+        p
+          strong Plan Description:
+          | #{plan.planDescription}
+        p
+          strong Plan Cost:
+          | #{plan.premiumCost}
+
+      p Thank you for choosing our insurance services. For more details, visit our website.
+
+      p Best regards,
+      p Your Insurance Provider

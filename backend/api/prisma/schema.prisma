@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ROLES {
+  doctor
+  insurer
+  patient
+}
+
+enum THEMES {
+  theme1
+  theme2
+}
+
+enum STATUS {
+  scheduled
+  cancelled
+  completed
+}
+
+model Patients {
+  id                  String          @id
+  medicalHistory      String?
+  covid19Symptoms     Json?
+  purchasedPlans      PlanPurchases[]
+  feedbacksGiven      Feedback[]
+  subscribedProviders Subscribe[]
+  slots               Slots[]
+}
+
+model Doctors {
+  id                String     @id
+  name              String
+  hospitalId        String?
+  hospitals         Hospitals?  @relation(fields: [hospitalId], references: [id])
+  specialization    String?
+  treatsCovid       Boolean    @default(false)
+  feedbacksRecieved Feedback[]
+  slots             Slots[]
+}
+
+model Slots {
+  id          String        @id @default(uuid())
+  doctorId    String
+  doctors     Doctors       @relation(fields: [doctorId], references: [id])
+  patientId   String?
+  patients    Patients?     @relation(fields: [patientId], references: [id])
+  date        DateTime      @db.Date
+  startTime   DateTime
+  endTime     DateTime
+  isBooked    Boolean       @default(false)
+}
+
+model Feedback {
+  id        String   @id @default(uuid())
+  patientId String
+  patients  Patients @relation(fields: [patientId], references: [id])
+  doctorId  String
+  doctors   Doctors  @relation(fields: [doctorId], references: [id])
+  rating    Float
+  review    String
+}
+
+model Hospitals {
+  id            String    @id @default(uuid())
+  name          String?
+  bedCount      Int
+  occupiedCount Int
+  location      Float[]
+  doctors       Doctors[]
+}
+
+model InsuranceProviders {
+  id                 String           @id
+  providerName       String?
+  insurancePlans     InsurancePlans[]
+  subscribedPatients Subscribe[]
+}
+
+model Subscribe {
+  id         String             @id @default(uuid())
+  providerId String
+  providers  InsuranceProviders @relation(fields: [providerId], references: [id])
+  patientId  String
+  patients   Patients           @relation(fields: [patientId], references: [id])
+}
+
+model InsurancePlans {
+  id                 String             @id @default(uuid())
+  providerId         String
+  insuranceProviders InsuranceProviders @relation(fields: [providerId], references: [id])
+  planName           String
+  planDescription    String
+  premiumCost        Decimal
+  purchasedPatients  PlanPurchases[]
+}
+
+model PlanPurchases {
+  id        String         @id @default(uuid())
+  planId    String
+  plans     InsurancePlans @relation(fields: [planId], references: [id])
+  patientId String
+  patients  Patients       @relation(fields: [patientId], references: [id])
+  price     Decimal
+}

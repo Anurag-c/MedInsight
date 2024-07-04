@@ -1,0 +1,51 @@
+previewsEnabled: true
+services:
+  - type: web
+    name: api
+    runtime: docker
+    repo: https://github.com/Anurag-c/MedInsights.git
+    region: ohio
+    plan: free
+    branch: main
+    rootDir: backend/api
+    numInstances: 1
+    healthCheckPath: /
+    pullRequestPreviewsEnabled: true
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: dev-db
+          property: connectionString
+  - type: web
+    name: medinsights
+    runtime: static
+    rootDir: client
+    buildCommand: make render-build
+    repo: https://github.com/Anurag-c/MedInsights.git
+    staticPublishPath: ./build
+    pullRequestPreviewsEnabled: true
+    branch: main
+    buildFilter:
+      paths:
+        - src/**/*.js
+      ignoredPaths:
+        - src/**/*.test.js
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: sameorigin
+    autoDeploy: true
+    envVars:
+      - key: REACT_APP_API_URL
+        fromService:
+          name: api
+          type: web
+          envVarKey: RENDER_EXTERNAL_URL
+
+databases:
+  - name: dev-db # Allows all connections
+    region: ohio
+    plan: free
+    databaseName: medinsights
+    user: app_user
+    postgresMajorVersion: 15
